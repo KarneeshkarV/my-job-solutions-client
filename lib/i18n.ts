@@ -186,6 +186,18 @@ const en = {
       Selected: "Our team will call you with the joining date and documents needed.",
       Rejected: "Don't stop here — there are other jobs that match your profile.",
     },
+    // Exact CRM stage, shown in "What's next" when known.
+    stageNote: {
+      new_lead: "We have your application. Our team will review your profile and call you.",
+      got_the_fees: "Your registration is complete. We are matching you with the employer.",
+      job_matched: "You're matched to this job. Our team will call you to fix the interview.",
+      interview_over: "Your interview is done. We'll call you as soon as the employer decides.",
+      placed: "Congratulations on your new job! Our team will call you with joining details.",
+      review_3_days: "You've joined — our team will check in with you after 3 days.",
+      review_7_days: "You've joined — our team will check in with you after 7 days.",
+      review_15_days: "You've joined — our team will check in with you after 15 days.",
+      rejected: "Don't stop here — there are other jobs that match your profile.",
+    } as Record<string, string>,
     actions: {
       askUpdate: "Ask for an update",
       checklist: "Interview checklist",
@@ -498,6 +510,17 @@ const hi: Dict = {
       Selected: "हमारी टीम जॉइनिंग की तारीख़ और ज़रूरी कागज़ों के लिए कॉल करेगी।",
       Rejected: "यहीं न रुकें — आपकी प्रोफ़ाइल से मेल खाती और भी नौकरियाँ हैं।",
     },
+    stageNote: {
+      new_lead: "आपका आवेदन मिल गया है। हमारी टीम प्रोफ़ाइल देखकर कॉल करेगी।",
+      got_the_fees: "आपका रजिस्ट्रेशन पूरा हो गया है। हम कंपनी से मिलान कर रहे हैं।",
+      job_matched: "आप इस नौकरी के लिए चुने गए हैं। इंटरव्यू तय करने के लिए हमारी टीम कॉल करेगी।",
+      interview_over: "आपका इंटरव्यू हो गया है। कंपनी का फ़ैसला आते ही हम कॉल करेंगे।",
+      placed: "नई नौकरी की बधाई! जॉइनिंग की जानकारी के लिए हमारी टीम कॉल करेगी।",
+      review_3_days: "आपने जॉइन कर लिया है — 3 दिन बाद हमारी टीम हालचाल पूछेगी।",
+      review_7_days: "आपने जॉइन कर लिया है — 7 दिन बाद हमारी टीम हालचाल पूछेगी।",
+      review_15_days: "आपने जॉइन कर लिया है — 15 दिन बाद हमारी टीम हालचाल पूछेगी।",
+      rejected: "यहीं न रुकें — आपकी प्रोफ़ाइल से मेल खाती और भी नौकरियाँ हैं।",
+    } as Record<string, string>,
     actions: {
       askUpdate: "अपडेट पूछें",
       checklist: "इंटरव्यू चेकलिस्ट",

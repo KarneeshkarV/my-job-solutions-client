@@ -44,30 +44,34 @@ export type PublicApplication = {
   jobId: string;
   appliedAt: string;
   status: PublicApplicationStatus;
+  /** The candidate's exact CRM pipeline stage, e.g. "interview_over". */
+  stage: string | null;
   resumeName: string;
 };
 
+/**
+ * CRM pipeline (my-job-solutions-crm, lib/crm/constants.ts):
+ *   new_lead → got_the_fees → job_matched → interview_over → placed
+ *   → review_3_days → review_7_days → review_15_days, or rejected.
+ * The review stages are check-ins after the candidate has joined.
+ */
 export function mapCandidateStatusToPublicStatus(
   status: string | null | undefined,
 ): PublicApplicationStatus {
-  if (status === "placed") {
-    return "Selected";
+  switch (status) {
+    case "placed":
+    case "review_3_days":
+    case "review_7_days":
+    case "review_15_days":
+      return "Selected";
+    case "rejected":
+      return "Rejected";
+    case "job_matched":
+    case "interview_over":
+      return "Interview";
+    default:
+      return "Submitted";
   }
-
-  if (status === "rejected") {
-    return "Rejected";
-  }
-
-  if (
-    status === "interview_over" ||
-    status === "review_3_days" ||
-    status === "review_7_days" ||
-    status === "review_15_days"
-  ) {
-    return "Interview";
-  }
-
-  return "Submitted";
 }
 
 export function parseSkills(value: string): string[] {

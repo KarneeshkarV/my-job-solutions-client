@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useDict, useLang } from "@/components/i18n-provider";
 import { CompanyMark } from "@/components/jobs/job-row";
@@ -44,8 +44,24 @@ const LOOK: Record<Status, { stripe: string; pill: string; box: string; Icon: ty
 export function ApplicationsList() {
   const t = useDict();
   const lang = useLang();
-  const { authLoaded, isSignedIn, profileLoaded, applications, applicationJobs } = useSite();
+  const { authLoaded, isSignedIn, profileLoaded, applications, applicationJobs, refreshApplications } = useSite();
   const [tab, setTab] = useState<Tab>("all");
+
+  // Statuses change in the CRM. Re-fetch when the page opens, when the
+  // visitor comes back to the tab, and every minute while it is visible.
+  useEffect(() => {
+    if (!isSignedIn) return;
+    const refresh = () => {
+      if (document.visibilityState === "visible") void refreshApplications();
+    };
+    refresh();
+    const timer = window.setInterval(refresh, 60_000);
+    document.addEventListener("visibilitychange", refresh);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", refresh);
+    };
+  }, [isSignedIn, refreshApplications]);
 
   if (!authLoaded || (isSignedIn && !profileLoaded)) {
     return (
@@ -160,7 +176,9 @@ export function ApplicationsList() {
                   {/* What's next */}
                   <div className={`mt-5 rounded-xl px-4 py-3.5 ${look.box}`}>
                     <p className="text-xs font-bold tracking-[0.06em] text-ink-mute uppercase">{t.applied.nextTitle}</p>
-                    <p className="mt-1 text-[15px] leading-relaxed text-ink">{t.applied.next[app.status]}</p>
+                    <p className="mt-1 text-[15px] leading-relaxed text-ink">
+                      {(app.stage && t.applied.stageNote[app.stage]) || t.applied.next[app.status]}
+                    </p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {app.status === "Submitted" && (
                         <AnchorButton href={whatsappLink(t.applied.waUpdate(title))} target="_blank" rel="noreferrer" variant="whatsapp" size="sm">

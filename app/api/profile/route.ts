@@ -132,10 +132,14 @@ export async function POST(request: Request) {
     address: parsed.data.address,
     district: parsed.data.district,
     aadhaar_last4: parsed.data.aadhaarLast4,
+    updated_by_clerk_user_id: userId,
+  };
+  // Set only when the candidate is created. On later updates the CRM team
+  // owns status (pipeline stage) and notes, so they must not be overwritten.
+  const createOnly = {
     notes: `Public client profile. Address: ${parsed.data.address}`,
     source: "public_job_seeker",
     status: "new_lead",
-    updated_by_clerk_user_id: userId,
   };
 
   const result = existing
@@ -149,6 +153,7 @@ export async function POST(request: Request) {
         .from("candidates")
         .insert({
           ...payload,
+          ...createOnly,
           created_by_clerk_user_id: userId,
         })
         .select("id")
