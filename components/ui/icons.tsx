@@ -30,6 +30,24 @@ export const BriefcaseIcon = (p: IconProps) => (
 export const UsersIcon = (p: IconProps) => (
   <svg {...base(p)}><circle cx="7.5" cy="7" r="2.75" /><path d="M2.5 16c.4-2.6 2.5-4.3 5-4.3s4.6 1.7 5 4.3" /><path d="M13 4.6a2.6 2.6 0 0 1 0 4.9M14.5 11.9c1.6.5 2.7 1.9 3 4.1" /></svg>
 );
+export const UserIcon = (p: IconProps) => (
+  <svg {...base(p)}><circle cx="10" cy="7" r="3.25" /><path d="M3.75 17c.6-3.2 3.1-5.25 6.25-5.25s5.65 2.05 6.25 5.25" /></svg>
+);
+export const ShieldCheckIcon = (p: IconProps) => (
+  <svg {...base(p)}><path d="M10 2.5 3.5 5v5c0 4 3 6.5 6.5 7.5 3.5-1 6.5-3.5 6.5-7.5V5L10 2.5Z" /><path d="m7 10 2 2 4-4" /></svg>
+);
+export const GradCapIcon = (p: IconProps) => (
+  <svg {...base(p)}><path d="M2.5 7.5 10 4l7.5 3.5L10 11 2.5 7.5Z" /><path d="M5.5 9v4c0 1.3 2 2.5 4.5 2.5s4.5-1.2 4.5-2.5V9" /></svg>
+);
+export const WrenchIcon = (p: IconProps) => (
+  <svg {...base(p)}><path d="M12 5.5a3.5 3.5 0 0 0-4.4 4.4L3 14.5 5.5 17l4.6-4.6a3.5 3.5 0 0 0 4.4-4.4l-2 2-2.5-2.5 2-2Z" /></svg>
+);
+export const MonitorIcon = (p: IconProps) => (
+  <svg {...base(p)}><rect x="2.5" y="3.5" width="15" height="10" rx="1.5" /><path d="M7 17h6M10 13.5V17" /></svg>
+);
+export const StarIcon = (p: IconProps) => (
+  <svg {...base(p)}><path d="M10 2.8 12 7.5l5 .5-3.8 3.3 1.1 4.9L10 13.7l-4.3 2.5 1.1-4.9L3 8l5-.5 2-4.7Z" /></svg>
+);
 export const ArrowRightIcon = (p: IconProps) => (
   <svg {...base(p)}><path d="M4 10h12m-4.5-4.5L16 10l-4.5 4.5" /></svg>
 );

@@ -22,8 +22,8 @@ function stageIndex(status: PublicApplicationStatus) {
 function StatusPill({ status, label }: { status: PublicApplicationStatus; label: string }) {
   const styles: Record<PublicApplicationStatus, string> = {
     Submitted: "bg-paper-sunk text-ink-soft",
-    Interview: "bg-amber-soft text-amber",
-    Selected: "bg-accent-soft text-accent-hover",
+    Interview: "bg-navy-soft text-ink",
+    Selected: "bg-accent text-white",
     Rejected: "bg-signal-soft text-signal",
   };
   return <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${styles[status]}`}>{label}</span>;
@@ -46,7 +46,7 @@ export function ApplicationsList() {
     return (
       <EmptyState title={t.applied.signedOutTitle} body={t.applied.signedOutBody}>
         <LinkButton href="/sign-in?redirect_url=/applied">{t.nav.signIn}</LinkButton>
-        <LinkButton href="/profile" variant="secondary">{t.nav.register}</LinkButton>
+        <LinkButton href="/sign-up" variant="secondary">{t.nav.register}</LinkButton>
       </EmptyState>
     );
   }

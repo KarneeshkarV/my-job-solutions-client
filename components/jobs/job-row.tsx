@@ -68,7 +68,7 @@ export function JobRow({ job, compact = false }: { job: Job; compact?: boolean }
               <span className="inline-flex items-center gap-1"><ClockIcon size={14} /> {postedLabel(days, lang)}</span>
             )}
             {applied && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-ink px-2 py-0.5 text-paper">
+              <span className="inline-flex items-center gap-1 rounded-full bg-accent-soft px-2 py-0.5 font-semibold text-accent-hover">
                 <CheckIcon size={12} /> {t.common.applied}
               </span>
             )}

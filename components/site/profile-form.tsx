@@ -68,6 +68,8 @@ export function ProfileHeading() {
   const t = useDict().profile;
   const { isSignedIn, profileLoaded, profile } = useSite();
   const editing = isSignedIn && profileLoaded && !!profile;
+  // Signed-out visitors see the sign-up card instead, which has its own heading.
+  if (!isSignedIn) return <div className="pt-12 md:pt-16" />;
   return (
     <div className="animate-rise pt-12 pb-8 md:pt-16 md:pb-10">
       <h1 className="max-w-2xl font-display text-4xl leading-[1.1] tracking-tight md:text-5xl">
@@ -208,26 +210,39 @@ function ProfileForm() {
       <div ref={topRef} className="scroll-mt-28" />
 
       {isNew && (
-        <div className="mb-8">
-          <p className="num text-sm text-ink-mute">{t.stepOf(step + 1, STEPS.length)}</p>
-          <ol className="mt-3 grid grid-cols-3 gap-2">
-            {sectionTitles.map((title, i) => (
-              <li key={title} className="flex flex-col gap-2">
-                <span className={`h-1 rounded-full transition-colors ${i <= step ? "bg-accent" : "bg-line"}`} />
-                <span className={`text-sm ${i === step ? "text-ink" : "text-ink-mute"}`}>{title}</span>
+        <ol className="mb-6 grid grid-cols-3 gap-2" aria-label={t.stepOf(step + 1, STEPS.length)}>
+          {sectionTitles.map((title, i) => {
+            const done = i < step;
+            const current = i === step;
+            return (
+              <li
+                key={title}
+                aria-current={current ? "step" : undefined}
+                className={`flex flex-col items-start gap-2 rounded-2xl border p-3 transition-colors sm:flex-row sm:items-center sm:p-3.5 ${
+                  current ? "border-accent bg-accent-wash" : "border-line bg-surface"
+                }`}
+              >
+                <span
+                  className={`num flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
+                    done ? "bg-accent text-white" : current ? "bg-accent text-white" : "bg-navy-soft text-ink-mute"
+                  }`}
+                >
+                  {done ? <CheckIcon size={16} /> : i + 1}
+                </span>
+                <span className={`text-[13px] leading-tight font-semibold sm:text-sm ${current || done ? "text-ink" : "text-ink-mute"}`}>{title}</span>
               </li>
-            ))}
-          </ol>
-        </div>
+            );
+          })}
+        </ol>
       )}
 
       {error && <div className="mb-6"><FormMessage tone="error">{error}</FormMessage></div>}
       {saved && <div className="mb-6"><FormMessage tone="success">{t.saved}</FormMessage></div>}
 
-      <div className="space-y-10">
+      <div className="space-y-5">
         {visible(0) && (
-          <fieldset className="animate-rise">
-            <legend className="float-left w-full font-display text-2xl">{t.sections.personal}</legend>
+          <fieldset className="animate-rise rounded-3xl border border-line bg-surface p-5 shadow-[0_20px_40px_-32px_rgba(13,63,18,0.45)] sm:p-8">
+            <legend className="float-left mb-2 w-full font-display text-2xl">{t.sections.personal}</legend>
             <div className="clear-both mt-5 grid gap-5 sm:grid-cols-2">
               {text("name", { autoComplete: "name" })}
               {text("fatherName")}
@@ -250,8 +265,8 @@ function ProfileForm() {
         )}
 
         {visible(1) && (
-          <fieldset className={`animate-rise ${isNew ? "" : "border-t border-line pt-10"}`}>
-            <legend className="float-left w-full font-display text-2xl">{t.sections.work}</legend>
+          <fieldset className="animate-rise rounded-3xl border border-line bg-surface p-5 shadow-[0_20px_40px_-32px_rgba(13,63,18,0.45)] sm:p-8">
+            <legend className="float-left mb-2 w-full font-display text-2xl">{t.sections.work}</legend>
             <div className="clear-both mt-5 grid gap-5 sm:grid-cols-2">
               <Field label={t.fields.qualification} htmlFor="p-qualification" required>
                 <Select id="p-qualification" value={form.qualification} onChange={set("qualification")}>
@@ -278,8 +293,8 @@ function ProfileForm() {
         )}
 
         {visible(2) && (
-          <fieldset className={`animate-rise ${isNew ? "" : "border-t border-line pt-10"}`}>
-            <legend className="float-left w-full font-display text-2xl">{t.sections.resume} <span className="font-sans text-base text-ink-mute">({t.optional})</span></legend>
+          <fieldset className="animate-rise rounded-3xl border border-line bg-surface p-5 shadow-[0_20px_40px_-32px_rgba(13,63,18,0.45)] sm:p-8">
+            <legend className="float-left mb-2 w-full font-display text-2xl">{t.sections.resume} <span className="font-sans text-base text-ink-mute">({t.optional})</span></legend>
             <div className="clear-both mt-5">
               {profile?.resumeName && !file && (
                 <p className="mb-3 flex items-center gap-2 text-sm text-ink-soft">
@@ -316,7 +331,7 @@ function ProfileForm() {
         )}
       </div>
 
-      <div className="mt-10 flex flex-col-reverse gap-2 border-t border-line pt-6 sm:flex-row sm:justify-between">
+      <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-between">
         {isNew && step > 0 ? (
           <Button variant="ghost" onClick={() => { setError(""); setStep((s) => s - 1); }}>{t.back}</Button>
         ) : <span />}

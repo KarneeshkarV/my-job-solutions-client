@@ -16,11 +16,12 @@ const PAGE_SIZE = 10;
 export type JobFilters = { q: string; loc: string; exp: "" | "fresher" | "experienced"; sort: "" | "salary-high" | "salary-low"; page: number };
 
 function filterJobs(jobs: Job[], f: JobFilters): Job[] {
-  const q = f.q.trim().toLowerCase();
+  // Commas separate alternatives: "delivery,sales" matches either word.
+  const terms = f.q.toLowerCase().split(",").map((term) => term.trim()).filter(Boolean);
   const result = jobs.filter((job) => {
-    if (q) {
+    if (terms.length > 0) {
       const haystack = [job.title, job.company, job.location, ...job.skills].filter(Boolean).join(" ").toLowerCase();
-      if (!haystack.includes(q)) return false;
+      if (!terms.some((term) => haystack.includes(term))) return false;
     }
     if (f.loc && job.location !== f.loc) return false;
     if (f.exp === "fresher" && !isFresherFriendly(job)) return false;
@@ -97,7 +98,7 @@ export function JobsBrowser({ jobs, initial }: { jobs: Job[]; initial: JobFilter
     return (
       <div className="wrap pb-24">
         <EmptyState title={t.jobs.noneTitle} body={t.jobs.noneBody}>
-          <LinkButton href="/profile">{t.nav.register}</LinkButton>
+          <LinkButton href="/sign-up">{t.nav.register}</LinkButton>
           <AnchorButton href={whatsappLink()} target="_blank" rel="noreferrer" variant="secondary">
             <WhatsAppIcon className="text-[#1faa53]" /> {t.common.whatsapp}
           </AnchorButton>

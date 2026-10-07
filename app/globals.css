@@ -1,11 +1,13 @@
 @import "tailwindcss";
 
 /*
- * Design tokens, taken from the company logo: leaf green (light to deep),
- * navy from the figure, red from the tie. Backgrounds are light green-whites.
+ * Design tokens. Three colour families only, all from the company logo:
+ *   green  — brand, actions, highlights (deep → lime → pale)
+ *   navy   — text, borders, neutral backgrounds
+ *   red    — the logo's tie; only for "New" badges and errors
  */
 :root {
-  --paper: #f8fbf4;
+  --paper: #fbfdf8;
   --paper-sunk: #eef5e6;
   --surface: #ffffff;
   --ink: #0a1a2f;
@@ -13,17 +15,17 @@
   --ink-mute: #5a6b7d;
   --line: #e0e9d6;
   --line-strong: #c8d6ba;
-  --brand-lime: #76b810;
+  --deep: #0d3f12;
+  --brand-lime: #8cd11f;
   --brand-mid: #3e8b0b;
   --accent: #348311;
   --accent-hover: #105514;
   --accent-ink: #2b7310;
-  --accent-soft: #e8f4dc;
-  --accent-wash: #f2f9ea;
+  --accent-soft: #e9f7d2;
+  --accent-wash: #f3faea;
   --signal: #ce110b;
   --signal-soft: #fbe7e6;
-  --amber: #8a5a00;
-  --amber-soft: #fbf1d9;
+  --navy-soft: #eef2f7;
 }
 
 @theme inline {
@@ -40,15 +42,15 @@
   --color-accent-soft: var(--accent-soft);
   --color-accent-ink: var(--accent-ink);
   --color-accent-wash: var(--accent-wash);
+  --color-deep: var(--deep);
   --color-brand-lime: var(--brand-lime);
   --color-brand-mid: var(--brand-mid);
   --color-signal: var(--signal);
   --color-signal-soft: var(--signal-soft);
-  --color-amber: var(--amber);
-  --color-amber-soft: var(--amber-soft);
+  --color-navy-soft: var(--navy-soft);
 
   --font-sans: var(--font-hanken), var(--font-mukta), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fraunces), var(--font-mukta), ui-serif, Georgia, serif;
+  --font-display: var(--font-bricolage), var(--font-mukta), ui-sans-serif, system-ui, sans-serif;
 
   --animate-rise: rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-fade: fade 0.2s ease-out both;
@@ -97,9 +99,15 @@
     line-height: 1.7;
   }
 
+  /* Headings: Bricolage Grotesque, bold and slightly tight. */
+  .font-display {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
   html[lang="hi"] .font-display {
     font-family: var(--font-mukta), ui-sans-serif, sans-serif;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0;
   }
 
