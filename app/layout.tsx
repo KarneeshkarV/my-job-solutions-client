@@ -1,15 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Hanken_Grotesk, Mukta } from "next/font/google";
+import { Bricolage_Grotesque, Hanken_Grotesk, Mukta } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import { LangProvider } from "@/components/i18n-provider";
 import { getLang } from "@/lib/i18n-server";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  axes: ["opsz", "SOFT"],
-  variable: "--font-fraunces",
+  axes: ["opsz"],
+  variable: "--font-bricolage",
   display: "swap",
 });
 
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f8fbf4",
+  themeColor: "#0d3f12",
 };
 
 const clerkAppearance = {
@@ -57,7 +57,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
   return (
     <ClerkProvider appearance={clerkAppearance}>
-      <html lang={lang} className={`${fraunces.variable} ${hanken.variable} ${mukta.variable} h-full antialiased`}>
+      <html lang={lang} className={`${bricolage.variable} ${hanken.variable} ${mukta.variable} h-full antialiased`}>
         <body className="flex min-h-full flex-col">
           <LangProvider lang={lang}>{children}</LangProvider>
         </body>

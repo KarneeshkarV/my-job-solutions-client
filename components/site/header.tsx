@@ -113,7 +113,7 @@ export function Header() {
           ) : (
             <>
               <LinkButton href="/sign-in" variant="ghost" size="sm">{t.signIn}</LinkButton>
-              <LinkButton href="/profile" size="sm">{t.register}</LinkButton>
+              <LinkButton href="/sign-up" size="sm">{t.register}</LinkButton>
             </>
           )}
         </div>
@@ -161,7 +161,7 @@ export function Header() {
               </button>
             ) : (
               <>
-                <LinkButton href="/profile" size="lg">{t.register}</LinkButton>
+                <LinkButton href="/sign-up" size="lg">{t.register}</LinkButton>
                 <LinkButton href="/sign-in" variant="secondary" size="lg">{t.signIn}</LinkButton>
               </>
             )}
