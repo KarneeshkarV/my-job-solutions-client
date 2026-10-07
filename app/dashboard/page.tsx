@@ -2,8 +2,8 @@ import { redirect } from "next/navigation";
 
 /**
  * Clerk fallback redirect target after sign-in / sign-up.
- * Sends users into the main SPA profile tab.
+ * Sends users to their profile.
  */
 export default function DashboardPage() {
-  redirect("/?tab=profile");
+  redirect("/profile");
 }
