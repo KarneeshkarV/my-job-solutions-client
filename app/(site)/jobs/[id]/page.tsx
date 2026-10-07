@@ -5,8 +5,8 @@ import { ApplyPanel } from "@/components/jobs/apply-panel";
 import { CompanyMark, JobRow } from "@/components/jobs/job-row";
 import { LinkButton } from "@/components/ui/button";
 import { ArrowLeftIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/ui/icons";
-import { getDict } from "@/lib/i18n-server";
-import { formatSalary } from "@/lib/job-utils";
+import { getDict, getLang } from "@/lib/i18n-server";
+import { daysSincePosted, formatSalary, postedLabel } from "@/lib/job-utils";
 import { getOpenJob, getOpenJobs } from "@/lib/jobs";
 import { SITE, whatsappLink } from "@/lib/site";
 
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps<"/jobs/[id]">): Pro
 
 export default async function JobPage({ params }: PageProps<"/jobs/[id]">) {
   const { id } = await params;
-  const [t, job] = await Promise.all([getDict(), getOpenJob(id)]);
+  const [t, lang, job] = await Promise.all([getDict(), getLang(), getOpenJob(id)]);
 
   if (!job) {
     return (
@@ -42,12 +42,15 @@ export default async function JobPage({ params }: PageProps<"/jobs/[id]">) {
   // The data mapping repeats the description as the first responsibility.
   const responsibilities = job.responsibilities.filter((r) => r !== job.description);
   const salary = formatSalary(job);
+  const days = daysSincePosted(job);
   const facts = [
     { label: t.job.salary, value: salary ? `${salary} ${job.salaryLabel ? t.common.perMonth : ""}` : t.common.notDisclosed },
     { label: t.job.experience, value: job.experience },
     { label: t.job.qualification, value: job.qualification },
     { label: t.job.joining, value: job.joining },
     { label: t.job.type, value: job.jobType },
+    ...(job.openings ? [{ label: t.job.openings, value: String(job.openings) }] : []),
+    ...(days !== null ? [{ label: t.job.posted, value: postedLabel(days, lang) }] : []),
   ];
 
   const shareHref = whatsappLink(`${t.job.shareText(job.title, job.company)}\n`);
@@ -119,10 +122,10 @@ export default async function JobPage({ params }: PageProps<"/jobs/[id]">) {
           )}
         </div>
 
-        <aside className="lg:sticky lg:top-24 lg:self-start">
-          <dl className="divide-y divide-line rounded-xl border border-line bg-surface">
+        <aside className="lg:sticky lg:top-28 lg:self-start">
+          <dl className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface">
             {facts.map((fact) => (
-              <div key={fact.label} className="flex justify-between gap-4 px-5 py-3.5 text-[15px]">
+              <div key={fact.label} className="flex justify-between gap-4 px-5 py-3.5 text-[15px] first:bg-accent-wash first:font-semibold">
                 <dt className="text-ink-mute">{fact.label}</dt>
                 <dd className="num text-right text-ink">{fact.value}</dd>
               </div>
@@ -135,7 +138,7 @@ export default async function JobPage({ params }: PageProps<"/jobs/[id]">) {
 
           <div className="mt-6 space-y-3 border-t border-line pt-5 text-[15px]">
             <a href={shareHref} target="_blank" rel="noreferrer" className="flex items-center gap-2.5 text-ink-soft hover:text-ink">
-              <WhatsAppIcon className="text-[#1f7a4d]" /> <span className="link">{t.job.share}</span>
+              <WhatsAppIcon className="text-[#1faa53]" /> <span className="link">{t.job.share}</span>
             </a>
             <a href={SITE.phoneHref} className="flex items-center gap-2.5 text-ink-soft hover:text-ink">
               <PhoneIcon className="text-ink-mute" />

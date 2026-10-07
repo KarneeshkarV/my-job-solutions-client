@@ -1,25 +1,29 @@
 @import "tailwindcss";
 
 /*
- * Design tokens. Warm paper background, ink-navy text, one forest-green
- * accent taken from the logo, and the logo's red used only as a signal.
+ * Design tokens, taken from the company logo: leaf green (light to deep),
+ * navy from the figure, red from the tie. Backgrounds are light green-whites.
  */
 :root {
-  --paper: #f7f5f0;
-  --paper-sunk: #efebe3;
+  --paper: #f8fbf4;
+  --paper-sunk: #eef5e6;
   --surface: #ffffff;
-  --ink: #0e1a2b;
-  --ink-soft: #3b4656;
-  --ink-mute: #6b7180;
-  --line: #e4dfd4;
-  --line-strong: #cec7b8;
-  --accent: #1f5c3a;
-  --accent-hover: #174a2e;
-  --accent-soft: #e3ece4;
-  --signal: #c2361c;
-  --signal-soft: #f8e6e1;
-  --amber: #9a6510;
-  --amber-soft: #f5ecd9;
+  --ink: #0a1a2f;
+  --ink-soft: #3a4a5c;
+  --ink-mute: #5a6b7d;
+  --line: #e0e9d6;
+  --line-strong: #c8d6ba;
+  --brand-lime: #76b810;
+  --brand-mid: #3e8b0b;
+  --accent: #348311;
+  --accent-hover: #105514;
+  --accent-ink: #2b7310;
+  --accent-soft: #e8f4dc;
+  --accent-wash: #f2f9ea;
+  --signal: #ce110b;
+  --signal-soft: #fbe7e6;
+  --amber: #8a5a00;
+  --amber-soft: #fbf1d9;
 }
 
 @theme inline {
@@ -34,6 +38,10 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-wash: var(--accent-wash);
+  --color-brand-lime: var(--brand-lime);
+  --color-brand-mid: var(--brand-mid);
   --color-signal: var(--signal);
   --color-signal-soft: var(--signal-soft);
   --color-amber: var(--amber);
@@ -123,6 +131,11 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-mute);
+  }
+
+  /* The logo's green, light to deep. Used sparingly. */
+  .brand-gradient {
+    background-image: linear-gradient(160deg, var(--brand-lime) 0%, var(--brand-mid) 45%, var(--accent-hover) 100%);
   }
 
   .num {

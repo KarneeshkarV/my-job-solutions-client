@@ -27,6 +27,9 @@ export const PinIcon = (p: IconProps) => (
 export const BriefcaseIcon = (p: IconProps) => (
   <svg {...base(p)}><rect x="2.5" y="6" width="15" height="10.5" rx="1.5" /><path d="M7 6V4.5A1 1 0 0 1 8 3.5h4a1 1 0 0 1 1 1V6M2.5 10.5h15" /></svg>
 );
+export const UsersIcon = (p: IconProps) => (
+  <svg {...base(p)}><circle cx="7.5" cy="7" r="2.75" /><path d="M2.5 16c.4-2.6 2.5-4.3 5-4.3s4.6 1.7 5 4.3" /><path d="M13 4.6a2.6 2.6 0 0 1 0 4.9M14.5 11.9c1.6.5 2.7 1.9 3 4.1" /></svg>
+);
 export const ArrowRightIcon = (p: IconProps) => (
   <svg {...base(p)}><path d="M4 10h12m-4.5-4.5L16 10l-4.5 4.5" /></svg>
 );

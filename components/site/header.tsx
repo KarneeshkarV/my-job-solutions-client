@@ -58,9 +58,9 @@ export function Header() {
 
   return (
     <>
-    <header className="sticky top-0 z-40 border-b border-line bg-paper/90 backdrop-blur-md supports-[backdrop-filter]:bg-paper/80">
-      <div className="wrap flex h-16 items-center justify-between gap-6">
-        <Logo />
+    <header className="sticky top-0 z-40 border-b border-line bg-surface/90 backdrop-blur-md supports-[backdrop-filter]:bg-surface/80">
+      <div className="wrap flex h-19 items-center justify-between gap-6">
+        <Logo height={60} />
 
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
           {links.map((link) => {
@@ -80,7 +80,7 @@ export function Header() {
                     {link.count}
                   </span>
                 ) : null}
-                {active && <span className="absolute inset-x-3 -bottom-[13px] h-0.5 rounded-full bg-accent" />}
+                {active && <span className="absolute inset-x-3 -bottom-[19px] h-0.5 rounded-full bg-accent" />}
               </Link>
             );
           })}
@@ -133,7 +133,7 @@ export function Header() {
 
       {/* Outside <header>: its backdrop-filter would trap a fixed child. */}
       {open && (
-        <div id="mobile-menu" className="fixed inset-x-0 top-16 bottom-0 z-40 animate-fade overflow-y-auto bg-paper md:hidden">
+        <div id="mobile-menu" className="fixed inset-x-0 top-19 bottom-0 z-40 animate-fade overflow-y-auto bg-paper md:hidden">
           <nav aria-label="Mobile" className="wrap flex flex-col py-4">
             {[{ href: "/", label: t.home }, ...links].map((link) => (
               <Link

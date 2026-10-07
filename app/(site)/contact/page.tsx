@@ -59,7 +59,7 @@ export default async function ContactPage() {
           <div className="mt-5 flex flex-wrap gap-2">
             <AnchorButton href={SITE.phoneHref}><PhoneIcon /> {t.common.call}</AnchorButton>
             <AnchorButton href={whatsappLink()} target="_blank" rel="noreferrer" variant="secondary">
-              <WhatsAppIcon className="text-[#1f7a4d]" /> {t.common.whatsapp}
+              <WhatsAppIcon className="text-[#1faa53]" /> {t.common.whatsapp}
             </AnchorButton>
           </div>
         </div>

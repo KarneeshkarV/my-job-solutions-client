@@ -25,7 +25,8 @@ Without Supabase keys the site still runs; job lists show their empty state.
 | `components/jobs/` | Job row, jobs browser with filters, apply panel |
 | `lib/i18n.ts` | All UI copy, in English and Hindi |
 | `lib/site.ts` | Phone, WhatsApp, email, address |
-| `app/globals.css` | Colour and font tokens |
+| `app/globals.css` | Colour and font tokens (taken from the logo) |
+| `public/logo.png` | Logo used in header and footer; `app/icon.png` is the favicon |
 
 Team photos: put files in `public/team/` and list them in `TEAM_PHOTOS` in
 `app/(site)/about/page.tsx`.

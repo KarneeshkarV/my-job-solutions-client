@@ -205,7 +205,7 @@ function ProfileForm() {
 
   return (
     <form onSubmit={submit} noValidate>
-      <div ref={topRef} className="scroll-mt-24" />
+      <div ref={topRef} className="scroll-mt-28" />
 
       {isNew && (
         <div className="mb-8">

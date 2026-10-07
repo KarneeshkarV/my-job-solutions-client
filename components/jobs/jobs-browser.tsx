@@ -99,7 +99,7 @@ export function JobsBrowser({ jobs, initial }: { jobs: Job[]; initial: JobFilter
         <EmptyState title={t.jobs.noneTitle} body={t.jobs.noneBody}>
           <LinkButton href="/profile">{t.nav.register}</LinkButton>
           <AnchorButton href={whatsappLink()} target="_blank" rel="noreferrer" variant="secondary">
-            <WhatsAppIcon className="text-[#1f7a4d]" /> {t.common.whatsapp}
+            <WhatsAppIcon className="text-[#1faa53]" /> {t.common.whatsapp}
           </AnchorButton>
         </EmptyState>
       </div>
@@ -109,7 +109,7 @@ export function JobsBrowser({ jobs, initial }: { jobs: Job[]; initial: JobFilter
   return (
     <>
       {/* Filter bar */}
-      <div className="sticky top-16 z-30 border-y border-line bg-paper/95 backdrop-blur-md">
+      <div className="sticky top-19 z-30 border-y border-line bg-paper/95 backdrop-blur-md">
         <div className="wrap flex items-center gap-2 py-3">
           <div className="relative min-w-0 flex-1 md:max-w-sm">
             <SearchIcon className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-ink-mute" />
@@ -152,7 +152,7 @@ export function JobsBrowser({ jobs, initial }: { jobs: Job[]; initial: JobFilter
         </div>
       )}
 
-      <div ref={listTop} className="wrap scroll-mt-36 pt-6 pb-24">
+      <div ref={listTop} className="wrap scroll-mt-40 pt-6 pb-24">
         <div className="flex items-center justify-between text-sm text-ink-mute">
           <p className="num" aria-live="polite">{t.jobs.count(filtered.length)}</p>
           {(activeCount > 0 || filters.q) && (
@@ -164,7 +164,7 @@ export function JobsBrowser({ jobs, initial }: { jobs: Job[]; initial: JobFilter
           <EmptyState title={t.jobs.emptyTitle} body={t.jobs.emptyBody}>
             <Button variant="secondary" onClick={clear}>{t.jobs.clear}</Button>
             <AnchorButton href={whatsappLink()} target="_blank" rel="noreferrer" variant="ghost">
-              <WhatsAppIcon className="text-[#1f7a4d]" /> {t.common.whatsapp}
+              <WhatsAppIcon className="text-[#1faa53]" /> {t.common.whatsapp}
             </AnchorButton>
           </EmptyState>
         ) : (

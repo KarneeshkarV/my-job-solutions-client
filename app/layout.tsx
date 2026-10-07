@@ -36,17 +36,17 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f5f0",
+  themeColor: "#f8fbf4",
 };
 
 const clerkAppearance = {
   variables: {
-    colorPrimary: "#1f5c3a",
+    colorPrimary: "#348311",
     colorBackground: "#ffffff",
-    colorForeground: "#0e1a2b",
+    colorForeground: "#0a1a2f",
     colorInput: "#ffffff",
-    colorInputForeground: "#0e1a2b",
-    colorMutedForeground: "#6b7180",
+    colorInputForeground: "#0a1a2f",
+    colorMutedForeground: "#5a6b7d",
     borderRadius: "0.5rem",
     fontFamily: "var(--font-hanken), var(--font-mukta), system-ui, sans-serif",
   },

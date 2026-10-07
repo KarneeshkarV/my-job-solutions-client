@@ -12,9 +12,9 @@ const variants: Record<Variant, string> = {
   ghost:
     "text-ink hover:bg-paper-sunk",
   whatsapp:
-    "bg-[#1f7a4d] text-white hover:bg-[#186540]",
+    "bg-surface text-ink border border-line-strong hover:border-[#1faa53] [&>svg]:text-[#1faa53]",
   inverse:
-    "border border-paper/25 text-paper hover:bg-paper/10",
+    "border border-white/45 text-white hover:bg-white/10",
 };
 
 const sizes: Record<Size, string> = {

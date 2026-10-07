@@ -35,6 +35,10 @@ export type PublicJobOpening = {
   requirements: string[];
   skills: string[];
   badge?: "featured" | "new" | "urgent" | "open";
+  /** Number of vacancies, when the company gave one. */
+  openings: number | null;
+  /** ISO date the role was created, if known. */
+  postedAt: string | null;
 };
 
 export type PublicApplication = {
@@ -169,5 +173,7 @@ export function roleToPublicJob(rawRole: unknown): PublicJobOpening {
     ],
     skills,
     badge: role.created_at ? "open" : "new",
+    openings: numberValue(role.vacancy_count),
+    postedAt: textValue(role.created_at) || null,
   };
 }

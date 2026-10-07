@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { getDict } from "@/lib/i18n-server";
 import { SITE, whatsappLink } from "@/lib/site";
-import { LogoMark } from "@/components/ui/logo";
+import { Logo } from "@/components/ui/logo";
 
 export async function Footer() {
   const t = await getDict();
@@ -18,10 +18,7 @@ export async function Footer() {
     <footer className="mt-auto border-t border-line bg-paper-sunk/60">
       <div className="wrap grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1.2fr]">
         <div className="max-w-xs">
-          <div className="flex items-center gap-2.5">
-            <LogoMark size={26} />
-            <span className="font-display text-lg">MyJobSolution</span>
-          </div>
+          <Logo height={56} />
           <p className="mt-3 text-sm leading-relaxed text-ink-mute">{t.footer.tagline}</p>
         </div>
 

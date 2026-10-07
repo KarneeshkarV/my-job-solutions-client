@@ -49,3 +49,20 @@ export function initials(name: string): string {
   if (parts.length === 0) return "";
   return (parts[0][0] + (parts[1]?.[0] ?? "")).toUpperCase();
 }
+
+const DAY = 24 * 60 * 60 * 1000;
+
+/** Whole days since the job was posted, or null if unknown. */
+export function daysSincePosted(job: Job, now = Date.now()): number | null {
+  if (!job.postedAt) return null;
+  const t = Date.parse(job.postedAt);
+  return Number.isNaN(t) ? null : Math.max(0, Math.floor((now - t) / DAY));
+}
+
+/** "Today", "3 days ago", "2 weeks ago" in English or Hindi. */
+export function postedLabel(days: number, lang: "en" | "hi"): string {
+  const rtf = new Intl.RelativeTimeFormat(lang === "hi" ? "hi-IN" : "en-IN", { numeric: "auto" });
+  if (days < 7) return rtf.format(-days, "day");
+  if (days < 30) return rtf.format(-Math.floor(days / 7), "week");
+  return rtf.format(-Math.floor(days / 30), "month");
+}
