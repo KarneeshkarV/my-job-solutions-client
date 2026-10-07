@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useDict, useToggleLang } from "@/components/i18n-provider";
 import { Logo } from "@/components/ui/logo";
 import { LinkButton } from "@/components/ui/button";
-import { CloseIcon, MenuIcon } from "@/components/ui/icons";
+import { CloseIcon, MenuIcon, UserIcon } from "@/components/ui/icons";
 import { initials } from "@/lib/job-utils";
 import { useSite } from "./site-provider";
 
@@ -95,12 +95,13 @@ export function Header() {
             <div className="flex items-center gap-1">
               <Link
                 href="/profile"
-                className="flex items-center gap-2 rounded-full py-1 pr-3 pl-1 transition-colors hover:bg-paper-sunk"
+                aria-current={pathname === "/profile" ? "page" : undefined}
+                className="flex items-center gap-2 rounded-full border border-accent/20 bg-accent-wash py-1 pr-3.5 pl-1 transition-colors hover:border-accent/50 hover:bg-accent-soft aria-[current=page]:border-accent"
               >
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-xs font-medium tracking-wide text-paper">
-                  {initials(profile?.name ?? "") || "•"}
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent-soft text-xs font-bold tracking-wide text-accent-hover ring-2 ring-white">
+                  {initials(profile?.name ?? "") || <UserIcon size={16} />}
                 </span>
-                <span className="max-w-32 truncate text-sm">{profile?.name?.split(" ")[0] || t.profile}</span>
+                <span className="max-w-32 truncate text-sm font-semibold text-ink">{profile?.name?.split(" ")[0] || t.profile}</span>
               </Link>
               <button
                 type="button"
