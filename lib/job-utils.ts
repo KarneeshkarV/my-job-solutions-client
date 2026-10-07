@@ -2,21 +2,20 @@ import type { PublicJobOpening } from "@/lib/public-api";
 
 export type Job = PublicJobOpening;
 
-const NOT_DISCLOSED = "Not disclosed";
-
-function salaryNumbers(salary: string): number[] {
-  return (salary.match(/\d[\d,]*/g) ?? [])
+function salaryNumbers(salary: string | null): number[] {
+  return (salary?.match(/\d[\d,]*/g) ?? [])
     .map((part) => Number(part.replace(/,/g, "")))
     .filter((n) => Number.isFinite(n) && n > 0);
 }
 
-export function hasSalary(job: Job): boolean {
-  return job.salary !== NOT_DISCLOSED && salaryNumbers(job.salary).length > 0;
-}
-
-/** "15000-18000" → "₹15,000 – 18,000". Free text without numbers is returned as is. */
+/**
+ * Salary for display. Plain numbers ("15000-18000") get rupee formatting;
+ * anything with words ("15k + PF per month") is shown exactly as entered.
+ * Null when the company gave no salary.
+ */
 export function formatSalary(job: Job): string | null {
-  if (job.salary === NOT_DISCLOSED) return null;
+  if (!job.salary) return null;
+  if (/[a-z\u0900-\u097f]/i.test(job.salary)) return job.salary;
   const nums = salaryNumbers(job.salary);
   if (nums.length === 0) return job.salary;
   const fmt = (n: number) => n.toLocaleString("en-IN");
@@ -33,11 +32,12 @@ export function maxSalary(job: Job): number {
 }
 
 export function isFresherFriendly(job: Job): boolean {
-  return /fresher|no experience|\b0\s*[-–]/i.test(job.experience);
+  return !!job.experience && /fresher|no experience|\b0\s*[-–]/i.test(job.experience);
 }
 
 /** Two-letter monogram for a company, used where a logo would go. */
-export function monogram(name: string): string {
+export function monogram(name: string | null): string {
+  if (!name) return "MJ";
   const words = name.replace(/[^\p{L}\p{N}\s]/gu, "").trim().split(/\s+/).filter(Boolean);
   if (words.length === 0) return "MJ";
   if (words.length === 1) return words[0].slice(0, 2).toUpperCase();

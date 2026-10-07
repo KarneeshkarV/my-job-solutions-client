@@ -28,7 +28,7 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
   const latest = jobs.slice(0, 4);
 
   // Towns with open jobs, busiest first.
-  const byTown = [...jobs.reduce((m, j) => m.set(j.location, (m.get(j.location) ?? 0) + 1), new Map<string, number>())]
+  const byTown = [...jobs.reduce((m, j) => (j.location ? m.set(j.location, (m.get(j.location) ?? 0) + 1) : m), new Map<string, number>())]
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
 
   return (
@@ -56,7 +56,7 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
                 name="q"
                 type="search"
                 placeholder={t.home.searchPlaceholder}
-                className="h-11 w-full rounded-lg bg-transparent pr-3 pl-10 text-[15px] placeholder:text-ink-mute/80 focus:outline-none"
+                className="h-11 w-full rounded-lg bg-transparent pr-3 pl-10 text-base placeholder:text-ink-mute/80 focus:outline-none"
               />
             </div>
             {byTown.length > 1 && (
@@ -67,7 +67,7 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
                   id="hero-loc"
                   name="loc"
                   defaultValue=""
-                  className="h-11 w-full cursor-pointer appearance-none bg-transparent pr-3 pl-10 text-[15px] text-ink-soft focus:outline-none"
+                  className="h-11 w-full cursor-pointer appearance-none bg-transparent pr-3 pl-10 text-base text-ink-soft sm:text-[15px] focus:outline-none"
                 >
                   <option value="">{t.home.anywhere}</option>
                   {byTown.map(([town]) => <option key={town} value={town}>{town}</option>)}

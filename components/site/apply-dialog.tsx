@@ -32,17 +32,16 @@ export function ApplyDialog({ job, profile, onClose, onSubmitted }: Props) {
     setSubmitting(true);
     setError("");
     try {
-      const resumeName = draft.resumeName || "default_resume.pdf";
       const response = await fetch("/api/applications", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ roleId: job.id, profile: { ...draft, resumeName } }),
+        body: JSON.stringify({ roleId: job.id, profile: draft }),
       });
       if (!response.ok) {
         const data = (await response.json().catch(() => ({}))) as { error?: string };
         throw new Error(data.error ?? t.failed);
       }
-      await onSubmitted({ ...draft, resumeName });
+      await onSubmitted(draft);
     } catch (err) {
       setError(err instanceof Error ? err.message : t.failed);
       setSubmitting(false);
@@ -56,14 +55,14 @@ export function ApplyDialog({ job, profile, onClose, onSubmitted }: Props) {
       onClick={(e) => {
         if (e.target === dialogRef.current) dialogRef.current?.close();
       }}
-      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-xl bg-surface p-0 text-ink shadow-[0_24px_60px_-20px_rgba(14,26,43,0.35)] backdrop:bg-ink/40 backdrop:backdrop-blur-[2px] open:animate-rise"
+      className="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-md overflow-y-auto rounded-xl bg-surface p-0 text-ink shadow-[0_24px_60px_-20px_rgba(14,26,43,0.35)] backdrop:bg-ink/40 backdrop:backdrop-blur-[2px] open:animate-rise"
     >
       <form onSubmit={submit}>
         <div className="flex items-start justify-between gap-4 border-b border-line px-6 pt-5 pb-4">
           <div>
             <p className="eyebrow">{t.applyingFor}</p>
             <h2 className="mt-1 font-display text-xl leading-snug">{job.title}</h2>
-            <p className="text-sm text-ink-mute">{job.company}</p>
+            {job.company && <p className="text-sm text-ink-mute">{job.company}</p>}
           </div>
           <button
             type="button"
@@ -86,7 +85,7 @@ export function ApplyDialog({ job, profile, onClose, onSubmitted }: Props) {
               required
             />
           </Field>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-3">
             <Field label={t.mobile} htmlFor="apply-mobile">
               <Input
                 id="apply-mobile"

@@ -19,7 +19,7 @@ function filterJobs(jobs: Job[], f: JobFilters): Job[] {
   const q = f.q.trim().toLowerCase();
   const result = jobs.filter((job) => {
     if (q) {
-      const haystack = [job.title, job.company, job.location, ...job.skills].join(" ").toLowerCase();
+      const haystack = [job.title, job.company, job.location, ...job.skills].filter(Boolean).join(" ").toLowerCase();
       if (!haystack.includes(q)) return false;
     }
     if (f.loc && job.location !== f.loc) return false;
@@ -51,7 +51,7 @@ export function JobsBrowser({ jobs, initial }: { jobs: Job[]; initial: JobFilter
   const listTop = useRef<HTMLDivElement>(null);
 
   const locations = useMemo(
-    () => [...new Set(jobs.map((j) => j.location))].sort((a, b) => a.localeCompare(b)),
+    () => [...new Set(jobs.flatMap((j) => (j.location ? [j.location] : [])))].sort((a, b) => a.localeCompare(b)),
     [jobs],
   );
   const filtered = useMemo(() => filterJobs(jobs, filters), [jobs, filters]);
@@ -120,7 +120,7 @@ export function JobsBrowser({ jobs, initial }: { jobs: Job[]; initial: JobFilter
               value={filters.q}
               onChange={(e) => update({ q: e.target.value })}
               placeholder={t.jobs.search}
-              className="h-11 w-full rounded-lg border border-line-strong bg-surface pr-3 pl-10 text-[15px] placeholder:text-ink-mute/80 focus:border-accent focus:ring-3 focus:ring-accent/15 focus:outline-none"
+              className="h-11 w-full rounded-lg border border-line-strong bg-surface pr-3 pl-10 text-base placeholder:text-ink-mute/80 focus:border-accent focus:ring-3 focus:ring-accent/15 focus:outline-none"
             />
           </div>
           <div className="hidden flex-1 grid-cols-3 gap-2 md:grid">{selects}</div>

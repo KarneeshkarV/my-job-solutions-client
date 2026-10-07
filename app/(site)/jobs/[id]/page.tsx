@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: PageProps<"/jobs/[id]">): Pro
   if (!job) return { title: "Job not found" };
   const salary = formatSalary(job);
   return {
-    title: `${job.title} — ${job.company}`,
-    description: [job.location, salary && `${salary} / month`, job.experience].filter(Boolean).join(" · "),
+    title: [job.title, job.company].filter(Boolean).join(" — "),
+    description: [job.location, salary, job.experience].filter(Boolean).join(" · ") || undefined,
   };
 }
 
@@ -36,24 +36,21 @@ export default async function JobPage({ params }: PageProps<"/jobs/[id]">) {
   }
 
   const related = (await getOpenJobs())
-    .filter((j) => j.id !== job.id && j.location === job.location)
+    .filter((j) => j.id !== job.id && job.location !== null && j.location === job.location)
     .slice(0, 3);
 
-  // The data mapping repeats the description as the first responsibility.
-  const responsibilities = job.responsibilities.filter((r) => r !== job.description);
   const salary = formatSalary(job);
   const days = daysSincePosted(job);
+  // Only facts the database actually has. Salary is always listed so
+  // candidates know to ask for it.
   const facts = [
-    { label: t.job.salary, value: salary ? `${salary} ${job.salaryLabel ? t.common.perMonth : ""}` : t.common.notDisclosed },
-    { label: t.job.experience, value: job.experience },
-    { label: t.job.qualification, value: job.qualification },
-    { label: t.job.joining, value: job.joining },
-    { label: t.job.type, value: job.jobType },
+    { label: t.job.salary, value: salary ?? t.common.notDisclosed },
+    ...(job.experience ? [{ label: t.job.experience, value: job.experience }] : []),
     ...(job.openings ? [{ label: t.job.openings, value: String(job.openings) }] : []),
     ...(days !== null ? [{ label: t.job.posted, value: postedLabel(days, lang) }] : []),
   ];
 
-  const shareHref = whatsappLink(`${t.job.shareText(job.title, job.company)}\n`);
+  const shareHref = whatsappLink(`${t.job.shareText(job.title, job.company ?? "")}\n`);
 
   return (
     <article className="pb-28 md:pb-24">
@@ -66,11 +63,13 @@ export default async function JobPage({ params }: PageProps<"/jobs/[id]">) {
       <header className="wrap animate-rise flex flex-col gap-5 pt-8 pb-10 sm:flex-row sm:items-start">
         <CompanyMark name={job.company} size="lg" />
         <div>
-          <h1 className="font-display text-4xl leading-[1.1] tracking-tight text-balance md:text-5xl">{job.title}</h1>
+          <h1 className="font-display text-[2rem] leading-[1.1] tracking-tight text-balance break-words sm:text-4xl md:text-5xl">{job.title}</h1>
           <p className="mt-3 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-lg text-ink-soft">
-            <span>{job.company}</span>
-            <span aria-hidden className="text-line-strong">·</span>
-            <span className="inline-flex items-center gap-1.5"><PinIcon size={16} className="text-ink-mute" /> {job.location}</span>
+            <span className={job.company ? "" : "text-ink-mute"}>{job.company ?? t.common.companyHidden}</span>
+            <span aria-hidden className="hidden text-line-strong sm:inline">·</span>
+            <span className="inline-flex items-center gap-1.5">
+              <PinIcon size={16} className="text-ink-mute" /> {job.location ?? t.common.locationHidden}
+            </span>
           </p>
         </div>
       </header>
@@ -79,36 +78,10 @@ export default async function JobPage({ params }: PageProps<"/jobs/[id]">) {
         <div className="min-w-0 space-y-10">
           <section>
             <h2 className="eyebrow">{t.job.about}</h2>
-            <p className="mt-3 text-[17px] leading-relaxed whitespace-pre-line text-ink-soft">{job.description}</p>
+            <p className="mt-3 text-[17px] leading-relaxed break-words whitespace-pre-line text-ink-soft">
+              {job.description ?? t.job.noDescription}
+            </p>
           </section>
-
-          {responsibilities.length > 0 && (
-            <section>
-              <h2 className="eyebrow">{t.job.responsibilities}</h2>
-              <ul className="mt-3 space-y-2.5">
-                {responsibilities.map((item) => (
-                  <li key={item} className="flex gap-3 text-[17px] leading-relaxed text-ink-soft">
-                    <span className="mt-[0.7em] h-1 w-3 shrink-0 rounded-full bg-accent/60" aria-hidden />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {job.requirements.length > 0 && (
-            <section>
-              <h2 className="eyebrow">{t.job.requirements}</h2>
-              <ul className="mt-3 space-y-2.5">
-                {job.requirements.map((item) => (
-                  <li key={item} className="flex gap-3 text-[17px] leading-relaxed text-ink-soft">
-                    <span className="mt-[0.7em] h-1 w-3 shrink-0 rounded-full bg-accent/60" aria-hidden />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
 
           {job.skills.length > 0 && (
             <section>
@@ -142,7 +115,7 @@ export default async function JobPage({ params }: PageProps<"/jobs/[id]">) {
             </a>
             <a href={SITE.phoneHref} className="flex items-center gap-2.5 text-ink-soft hover:text-ink">
               <PhoneIcon className="text-ink-mute" />
-              <span>{t.job.byPhone} <span className="link num">{SITE.phoneDisplay}</span></span>
+              <span>{t.job.byPhone} <span className="link num whitespace-nowrap">{SITE.phoneDisplay}</span></span>
             </a>
           </div>
         </aside>

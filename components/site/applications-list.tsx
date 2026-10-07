@@ -73,7 +73,7 @@ export function ApplicationsList() {
         return (
           <li key={app.jobId} className="rounded-xl border border-line bg-surface p-5 sm:p-6">
             <div className="flex items-start gap-4">
-              <CompanyMark name={job?.company ?? "?"} />
+              <CompanyMark name={job?.company ?? null} />
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   {job ? (

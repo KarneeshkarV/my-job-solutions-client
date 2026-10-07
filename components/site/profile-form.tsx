@@ -153,7 +153,7 @@ function ProfileForm() {
 
     setError("");
     setSaving(true);
-    const resumeName = file?.name ?? profile?.resumeName ?? "my_resume.pdf";
+    const resumeName = file?.name ?? profile?.resumeName ?? "";
     try {
       const body = new FormData();
       for (const [key, value] of Object.entries(form)) body.append(key, value);
@@ -243,7 +243,7 @@ function ProfileForm() {
                 </Select>
               </Field>
               <Field label={t.fields.aadhaarLast4} htmlFor="p-aadhaarLast4" required hint={t.aadhaarNote}>
-                <Input id="p-aadhaarLast4" inputMode="numeric" maxLength={4} value={form.aadhaarLast4} onChange={set("aadhaarLast4")} placeholder={t.placeholders.aadhaarLast4} className="num tracking-[0.3em]" />
+                <Input id="p-aadhaarLast4" inputMode="numeric" maxLength={4} value={form.aadhaarLast4} onChange={set("aadhaarLast4")} placeholder={t.placeholders.aadhaarLast4} className="num tracking-[0.3em] placeholder:tracking-normal" />
               </Field>
             </div>
           </fieldset>

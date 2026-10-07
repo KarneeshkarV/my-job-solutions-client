@@ -1,7 +1,7 @@
 import type { ComponentProps, ReactNode } from "react";
 
 const control =
-  "w-full rounded-lg border border-line-strong bg-surface px-3.5 text-[15px] text-ink placeholder:text-ink-mute/80 " +
+  "w-full rounded-lg border border-line-strong bg-surface px-3.5 text-base text-ink sm:text-[15px] placeholder:text-ink-mute/80 " +
   "transition-colors duration-150 hover:border-ink-mute focus:border-accent focus:outline-none focus:ring-3 focus:ring-accent/15 " +
   "disabled:bg-paper-sunk disabled:text-ink-mute";
 

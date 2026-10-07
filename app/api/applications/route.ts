@@ -66,7 +66,7 @@ async function getLatestResumeName(candidateId: string) {
     .limit(1)
     .maybeSingle();
 
-  return data?.file_name ?? "Resume on file";
+  return data?.file_name ?? "";
 }
 
 export async function GET() {
@@ -100,7 +100,7 @@ export async function GET() {
     .map((role) => roleToPublicJob(role));
   const applications = (data ?? []).map((match) => ({
     jobId: match.role_id,
-    appliedAt: new Date(match.created_at).toLocaleDateString(),
+    appliedAt: new Date(match.created_at).toISOString(),
     status: mapCandidateStatusToPublicStatus(candidate.status),
     resumeName,
   }));

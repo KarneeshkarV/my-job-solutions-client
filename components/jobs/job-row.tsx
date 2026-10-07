@@ -3,18 +3,18 @@
 import Link from "next/link";
 
 import { useDict, useLang } from "@/components/i18n-provider";
-import { ArrowRightIcon, CheckIcon, ClockIcon, PinIcon, UsersIcon } from "@/components/ui/icons";
+import { ArrowRightIcon, BriefcaseIcon, CheckIcon, ClockIcon, PinIcon, UsersIcon } from "@/components/ui/icons";
 import { daysSincePosted, formatSalary, isFresherFriendly, monogram, postedLabel, type Job } from "@/lib/job-utils";
 import { useSite } from "@/components/site/site-provider";
 
-export function CompanyMark({ name, size = "md" }: { name: string; size?: "md" | "lg" }) {
+export function CompanyMark({ name, size = "md" }: { name: string | null; size?: "md" | "lg" }) {
   const dims = size === "lg" ? "h-14 w-14 text-xl" : "h-11 w-11 text-[15px]";
   return (
     <span
       aria-hidden
       className={`${dims} flex shrink-0 items-center justify-center rounded-lg border border-accent/15 bg-accent-wash font-display text-accent-hover`}
     >
-      {monogram(name)}
+      {name ? monogram(name) : <BriefcaseIcon size={size === "lg" ? 24 : 20} />}
     </span>
   );
 }
@@ -38,7 +38,7 @@ export function JobRow({ job, compact = false }: { job: Job; compact?: boolean }
         <CompanyMark name={job.company} />
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <h3 className="font-display text-[1.15rem] leading-snug text-ink group-hover:text-accent-ink">{job.title}</h3>
+            <h3 className="font-display text-[1.15rem] leading-snug break-words text-ink group-hover:text-accent-ink">{job.title}</h3>
             {isNew && (
               <span className="rounded-full bg-signal-soft px-2 py-0.5 text-[11px] font-medium tracking-wide text-signal uppercase">
                 {t.common.isNew}
@@ -46,12 +46,16 @@ export function JobRow({ job, compact = false }: { job: Job; compact?: boolean }
             )}
           </div>
           <p className="mt-0.5 flex flex-wrap items-center gap-x-2 text-sm text-ink-mute">
-            <span className="truncate text-ink-soft">{job.company}</span>
-            <span aria-hidden>·</span>
-            <span className="inline-flex items-center gap-1">
-              <PinIcon size={14} />
-              {job.location}
-            </span>
+            <span className={`truncate ${job.company ? "text-ink-soft" : ""}`}>{job.company ?? t.common.companyHidden}</span>
+            {job.location && (
+              <>
+                <span aria-hidden>·</span>
+                <span className="inline-flex items-center gap-1">
+                  <PinIcon size={14} />
+                  {job.location}
+                </span>
+              </>
+            )}
           </p>
           {!compact && <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px] text-ink-mute">
             {isFresherFriendly(job) && (
@@ -75,7 +79,6 @@ export function JobRow({ job, compact = false }: { job: Job; compact?: boolean }
             {salary ? (
               <>
                 <span className="text-base font-semibold">{salary}</span>
-                {job.salaryLabel && <span className="ml-1 text-sm text-ink-mute">{t.common.perMonth}</span>}
               </>
             ) : (
               <span className="text-sm text-ink-mute">{t.common.notDisclosed}</span>
