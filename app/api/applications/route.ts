@@ -102,6 +102,7 @@ export async function GET() {
     jobId: match.role_id,
     appliedAt: new Date(match.created_at).toISOString(),
     status: mapCandidateStatusToPublicStatus(candidate.status),
+    stage: typeof candidate.status === "string" ? candidate.status : null,
     resumeName,
   }));
 
@@ -157,10 +158,14 @@ export async function POST(request: Request) {
     address: profile.address,
     district: profile.district,
     aadhaar_last4: profile.aadhaarLast4,
+    updated_by_clerk_user_id: userId,
+  };
+  // Set only when the candidate is created. On later updates the CRM team
+  // owns status (pipeline stage) and notes, so they must not be overwritten.
+  const createOnly = {
     notes: `Public client application. Address: ${profile.address}`,
     source: "public_job_seeker",
     status: "new_lead",
-    updated_by_clerk_user_id: userId,
   };
 
   const candidateResult = existing
@@ -174,6 +179,7 @@ export async function POST(request: Request) {
         .from("candidates")
         .insert({
           ...payload,
+          ...createOnly,
           email: null,
           created_by_clerk_user_id: userId,
         })

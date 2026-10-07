@@ -33,6 +33,9 @@ export const UsersIcon = (p: IconProps) => (
 export const UserIcon = (p: IconProps) => (
   <svg {...base(p)}><circle cx="10" cy="7" r="3.25" /><path d="M3.75 17c.6-3.2 3.1-5.25 6.25-5.25s5.65 2.05 6.25 5.25" /></svg>
 );
+export const CalendarIcon = (p: IconProps) => (
+  <svg {...base(p)}><rect x="3" y="4.5" width="14" height="12.5" rx="1.5" /><path d="M3 8.5h14M7 2.5v3.5M13 2.5v3.5" /></svg>
+);
 export const ShieldCheckIcon = (p: IconProps) => (
   <svg {...base(p)}><path d="M10 2.5 3.5 5v5c0 4 3 6.5 6.5 7.5 3.5-1 6.5-3.5 6.5-7.5V5L10 2.5Z" /><path d="m7 10 2 2 4-4" /></svg>
 );

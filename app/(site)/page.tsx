@@ -221,7 +221,7 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
       </section>
 
       {/* ───────── Keep these ready ───────── */}
-      <section className="wrap grid items-center gap-8 pt-16 md:grid-cols-[1fr_1.2fr] md:gap-10 md:pt-24">
+      <section id="ready" className="wrap grid scroll-mt-24 items-center gap-8 pt-16 md:grid-cols-[1fr_1.2fr] md:gap-10 md:pt-24">
         <div>
           <SectionHead eyebrow={h.kitEyebrow} title={h.kitTitle} alt={h.kitAlt} />
           <p className="mt-4 max-w-md leading-relaxed text-ink-soft">{h.kitBody}</p>
