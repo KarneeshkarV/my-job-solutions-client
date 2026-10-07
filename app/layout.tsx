@@ -1,28 +1,67 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Fraunces, Hanken_Grotesk, Mukta } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+
+import { LangProvider } from "@/components/i18n-provider";
+import { getLang } from "@/lib/i18n-server";
 import "./globals.css";
 
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  axes: ["opsz", "SOFT"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
+
+const hanken = Hanken_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-hanken",
+  display: "swap",
+});
+
+const mukta = Mukta({
+  subsets: ["devanagari", "latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-mukta",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "MyJobSolution — Connecting Talent With Opportunity",
-  description: "MyJobSolution is a growing recruitment and manpower consultancy company dedicated to helping job seekers find the right career opportunities and helping companies hire skilled candidates efficiently.",
+  title: {
+    default: "MyJobSolution — Verified jobs in eastern Uttar Pradesh",
+    template: "%s · MyJobSolution",
+  },
+  description:
+    "Recruitment and manpower consultancy in Khalilabad, Sant Kabir Nagar. Verified jobs, free for job seekers. Register once and our team calls you.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: "#f8fbf4",
+};
+
+const clerkAppearance = {
+  variables: {
+    colorPrimary: "#348311",
+    colorBackground: "#ffffff",
+    colorForeground: "#0a1a2f",
+    colorInput: "#ffffff",
+    colorInputForeground: "#0a1a2f",
+    colorMutedForeground: "#5a6b7d",
+    borderRadius: "0.5rem",
+    fontFamily: "var(--font-hanken), var(--font-mukta), system-ui, sans-serif",
+  },
+};
+
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const lang = await getLang();
+
   return (
-    <ClerkProvider>
-      <html
-        lang="en"
-        className="h-full antialiased font-open-sans"
-      >
-        <body className="min-h-full flex flex-col bg-white text-[#0D1F3C]">
-          {children}
+    <ClerkProvider appearance={clerkAppearance}>
+      <html lang={lang} className={`${fraunces.variable} ${hanken.variable} ${mukta.variable} h-full antialiased`}>
+        <body className="flex min-h-full flex-col">
+          <LangProvider lang={lang}>{children}</LangProvider>
         </body>
       </html>
     </ClerkProvider>
   );
 }
-

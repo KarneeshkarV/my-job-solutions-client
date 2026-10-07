@@ -19,22 +19,25 @@ export type PublicUserProfile = {
   resumeName: string;
 };
 
+/**
+ * A job as the public site sees it. Every field comes from the database;
+ * a value the employer did not give is null, never a made-up default.
+ */
 export type PublicJobOpening = {
   id: string;
   title: string;
-  company: string;
-  location: string;
-  salary: string;
-  salaryLabel: string;
-  jobType: string;
-  experience: string;
-  qualification: string;
-  joining: string;
-  description: string;
-  responsibilities: string[];
-  requirements: string[];
+  company: string | null;
+  location: string | null;
+  /** Salary text exactly as entered for the company, e.g. "15000-18000". */
+  salary: string | null;
+  /** Experience note entered for the company, e.g. "Freshers welcome". */
+  experience: string | null;
+  description: string | null;
   skills: string[];
-  badge?: "featured" | "new" | "urgent" | "open";
+  /** Number of vacancies, when the company gave one. */
+  openings: number | null;
+  /** ISO date the role was created, if known. */
+  postedAt: string | null;
 };
 
 export type PublicApplication = {
@@ -131,43 +134,18 @@ export function roleToPublicJob(rawRole: unknown): PublicJobOpening {
   const company = rawCompany && typeof rawCompany === "object"
     ? (rawCompany as DataRecord)
     : {};
-  const companyName = textValue(company.name) || "MyJobSolution Partner";
-  const location =
-    textValue(role.location) ||
-    textValue(company.location) ||
-    "Location shared after screening";
-  const salary = textValue(company.salary) || "Not disclosed";
-  const experience =
-    textValue(company.fresher_experience) || "Open to eligible candidates";
-  const skills = stringArray(role.required_skills);
-  const title = textValue(role.title) || "Open Role";
-  const description = textValue(role.description);
+  const orNull = (value: unknown) => textValue(value).trim() || null;
 
   return {
     id: textValue(role.id),
-    title,
-    company: companyName,
-    location,
-    salary,
-    salaryLabel: salary === "Not disclosed" ? "" : "per month",
-    jobType: "Full time",
-    experience,
-    qualification: "As per role requirement",
-    joining: "Immediate",
-    description:
-      description ||
-      `Apply for ${title} at ${companyName}. Our team will verify your profile and share the next steps.`,
-    responsibilities: [
-      description || `Handle day-to-day responsibilities for ${title}.`,
-      "Coordinate with the company team and follow reporting instructions.",
-      "Maintain professional conduct during screening and onboarding.",
-    ],
-    requirements: [
-      experience,
-      skills.length ? `Skills: ${skills.join(", ")}` : "Relevant skills preferred.",
-      "Valid contact details and updated resume required.",
-    ],
-    skills,
-    badge: role.created_at ? "open" : "new",
+    title: textValue(role.title).trim(),
+    company: orNull(company.name),
+    location: orNull(role.location) ?? orNull(company.location),
+    salary: orNull(company.salary),
+    experience: orNull(company.fresher_experience),
+    description: orNull(role.description),
+    skills: stringArray(role.required_skills),
+    openings: numberValue(role.vacancy_count),
+    postedAt: orNull(role.created_at),
   };
 }
