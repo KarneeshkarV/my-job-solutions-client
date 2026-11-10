@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { useDict, useLang } from "@/components/i18n-provider";
-import { CompanyMark } from "@/components/jobs/job-row";
+import { JobMark } from "@/components/jobs/job-row";
 import { AnchorButton, LinkButton } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import {
@@ -153,7 +153,7 @@ export function ApplicationsList() {
                 <div className="p-5 pl-6 sm:p-6 sm:pl-8">
                   {/* Header */}
                   <div className="flex items-start gap-4">
-                    <CompanyMark name={job?.company ?? null} />
+                    <JobMark />
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-2">
                         {job ? (
@@ -166,7 +166,7 @@ export function ApplicationsList() {
                           {t.applied.stages[app.status]}
                         </span>
                       </div>
-                      <p className="mt-0.5 text-sm text-ink-mute">{[job?.company, job?.location, salary].filter(Boolean).join(" · ")}</p>
+                      <p className="mt-0.5 text-sm text-ink-mute">{[job?.location, salary].filter(Boolean).join(" · ")}</p>
                     </div>
                   </div>
 

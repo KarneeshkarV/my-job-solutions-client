@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ApplyPanel } from "@/components/jobs/apply-panel";
-import { CompanyMark, JobRow } from "@/components/jobs/job-row";
+import { JobMark, JobRow } from "@/components/jobs/job-row";
 import { LinkButton } from "@/components/ui/button";
 import { ArrowLeftIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/ui/icons";
 import { getDict, getLang } from "@/lib/i18n-server";
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: PageProps<"/jobs/[id]">): Pro
   if (!job) return { title: "Job not found" };
   const salary = formatSalary(job);
   return {
-    title: [job.title, job.company].filter(Boolean).join(" — "),
+    title: job.title,
     description: [job.location, salary, job.experience].filter(Boolean).join(" · ") || undefined,
   };
 }
@@ -50,7 +50,7 @@ export default async function JobPage({ params }: PageProps<"/jobs/[id]">) {
     ...(days !== null ? [{ label: t.job.posted, value: postedLabel(days, lang) }] : []),
   ];
 
-  const shareHref = whatsappLink(`${t.job.shareText(job.title, job.company ?? "")}\n`);
+  const shareHref = whatsappLink(`${t.job.shareText(job.title)}\n`);
 
   return (
     <article className="pb-28 md:pb-24">
@@ -61,12 +61,10 @@ export default async function JobPage({ params }: PageProps<"/jobs/[id]">) {
       </div>
 
       <header className="wrap animate-rise flex flex-col gap-5 pt-8 pb-10 sm:flex-row sm:items-start">
-        <CompanyMark name={job.company} size="lg" />
+        <JobMark size="lg" />
         <div>
           <h1 className="font-display text-[2rem] leading-[1.1] tracking-tight text-balance break-words sm:text-4xl md:text-5xl">{job.title}</h1>
           <p className="mt-3 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-lg text-ink-soft">
-            <span className={job.company ? "" : "text-ink-mute"}>{job.company ?? t.common.companyHidden}</span>
-            <span aria-hidden className="hidden text-line-strong sm:inline">·</span>
             <span className="inline-flex items-center gap-1.5">
               <PinIcon size={16} className="text-ink-mute" /> {job.location ?? t.common.locationHidden}
             </span>

@@ -84,7 +84,7 @@ export async function GET() {
   const { data, error } = await supabase
     .from("role_candidate_matches")
     .select(
-      "id,role_id,status,created_at,company_roles(id,title,description,required_skills,location,vacancy_count,status,created_at,updated_at,companies(id,name,location,salary,fresher_experience,company_status))",
+      "id,role_id,status,created_at,company_roles(id,title,description,required_skills,location,vacancy_count,status,created_at,updated_at,companies(id,location,salary,fresher_experience,company_status))",
     )
     .eq("candidate_id", candidate.id)
     .order("created_at", { ascending: false });

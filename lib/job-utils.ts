@@ -35,15 +35,6 @@ export function isFresherFriendly(job: Job): boolean {
   return !!job.experience && /fresher|no experience|\b0\s*[-–]/i.test(job.experience);
 }
 
-/** Two-letter monogram for a company, used where a logo would go. */
-export function monogram(name: string | null): string {
-  if (!name) return "MJ";
-  const words = name.replace(/[^\p{L}\p{N}\s]/gu, "").trim().split(/\s+/).filter(Boolean);
-  if (words.length === 0) return "MJ";
-  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
-  return (words[0][0] + words[1][0]).toUpperCase();
-}
-
 export function initials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return "";

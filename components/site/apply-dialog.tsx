@@ -62,7 +62,6 @@ export function ApplyDialog({ job, profile, onClose, onSubmitted }: Props) {
           <div>
             <p className="eyebrow">{t.applyingFor}</p>
             <h2 className="mt-1 font-display text-xl leading-snug">{job.title}</h2>
-            {job.company && <p className="text-sm text-ink-mute">{job.company}</p>}
           </div>
           <button
             type="button"
