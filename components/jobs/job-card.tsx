@@ -6,7 +6,7 @@ import { useDict, useLang } from "@/components/i18n-provider";
 import { useSite } from "@/components/site/site-provider";
 import { CheckIcon, ClockIcon, PinIcon, UsersIcon } from "@/components/ui/icons";
 import { daysSincePosted, formatSalary, isFresherFriendly, postedLabel, type Job } from "@/lib/job-utils";
-import { CompanyMark } from "./job-row";
+import { JobMark } from "./job-row";
 
 /** A job as a card, for grids on the home page. */
 export function JobCard({ job }: { job: Job }) {
@@ -24,15 +24,14 @@ export function JobCard({ job }: { job: Job }) {
         className="group flex h-full flex-col gap-3.5 rounded-2xl border border-line bg-surface p-5 transition duration-200 hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_20px_40px_-26px_rgba(13,63,18,0.5)]"
       >
         <div className="flex items-center gap-3">
-          <CompanyMark name={job.company} />
+          <JobMark />
           <div className="min-w-0">
             <h3 className="font-display text-lg leading-tight break-words group-hover:text-accent-ink">{job.title}</h3>
-            <p className="truncate text-sm text-ink-mute">{job.company ?? t.common.companyHidden}</p>
+            <p className="inline-flex items-center gap-1 text-sm text-ink-mute"><PinIcon size={13} /> {job.location ?? t.common.locationHidden}</p>
           </div>
         </div>
 
         <div className="flex flex-wrap gap-x-3.5 gap-y-1 text-[13px] text-ink-mute">
-          {job.location && <span className="inline-flex items-center gap-1"><PinIcon size={14} /> {job.location}</span>}
           {job.openings ? <span className="inline-flex items-center gap-1"><UsersIcon size={14} /> {t.common.openings(job.openings)}</span> : null}
           {days !== null && <span className="inline-flex items-center gap-1"><ClockIcon size={14} /> {postedLabel(days, lang)}</span>}
         </div>

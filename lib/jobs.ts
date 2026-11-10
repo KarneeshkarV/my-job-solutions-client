@@ -4,7 +4,7 @@ import { roleToPublicJob, type PublicJobOpening } from "@/lib/public-api";
 import { createSupabaseServiceRoleClient } from "@/lib/supabase/server";
 
 const ROLE_COLUMNS =
-  "id,title,description,required_skills,location,vacancy_count,status,created_at,updated_at,companies(id,name,location,salary,fresher_experience,company_status)";
+  "id,title,description,required_skills,location,vacancy_count,status,created_at,updated_at,companies(id,location,salary,fresher_experience,company_status)";
 
 /** Open roles, newest first. Throws if Supabase fails. */
 export async function fetchOpenJobs(): Promise<PublicJobOpening[]> {

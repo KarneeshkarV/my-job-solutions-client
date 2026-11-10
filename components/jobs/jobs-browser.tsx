@@ -20,7 +20,7 @@ function filterJobs(jobs: Job[], f: JobFilters): Job[] {
   const terms = f.q.toLowerCase().split(",").map((term) => term.trim()).filter(Boolean);
   const result = jobs.filter((job) => {
     if (terms.length > 0) {
-      const haystack = [job.title, job.company, job.location, ...job.skills].filter(Boolean).join(" ").toLowerCase();
+      const haystack = [job.title, job.location, ...job.skills].filter(Boolean).join(" ").toLowerCase();
       if (!terms.some((term) => haystack.includes(term))) return false;
     }
     if (f.loc && job.location !== f.loc) return false;

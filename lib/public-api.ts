@@ -22,11 +22,12 @@ export type PublicUserProfile = {
 /**
  * A job as the public site sees it. Every field comes from the database;
  * a value the employer did not give is null, never a made-up default.
+ * The employer's name is deliberately left out: the office shares it with
+ * candidates by phone, so it must never reach the browser.
  */
 export type PublicJobOpening = {
   id: string;
   title: string;
-  company: string | null;
   location: string | null;
   /** Salary text exactly as entered for the company, e.g. "15000-18000". */
   salary: string | null;
@@ -143,7 +144,6 @@ export function roleToPublicJob(rawRole: unknown): PublicJobOpening {
   return {
     id: textValue(role.id),
     title: textValue(role.title).trim(),
-    company: orNull(company.name),
     location: orNull(role.location) ?? orNull(company.location),
     salary: orNull(company.salary),
     experience: orNull(company.fresher_experience),

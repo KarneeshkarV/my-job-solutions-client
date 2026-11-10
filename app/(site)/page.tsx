@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { JobCard } from "@/components/jobs/job-card";
-import { CompanyMark } from "@/components/jobs/job-row";
+import { JobMark } from "@/components/jobs/job-row";
 import { AnchorButton, LinkButton } from "@/components/ui/button";
 import {
   ArrowRightIcon,
@@ -68,11 +68,7 @@ export default async function HomePage({ searchParams }: PageProps<"/">) {
         />
         <div className="wrap relative grid items-center gap-10 pt-9 pb-20 md:pt-16 md:pb-24 lg:grid-cols-[1.15fr_1fr] lg:gap-12">
           <div className="animate-rise">
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand-lime/35 bg-brand-lime/15 px-3.5 py-1.5 text-sm font-semibold text-[#d9f5a8]">
-              <span className="h-2 w-2 shrink-0 rounded-full bg-brand-lime shadow-[0_0_0_4px_rgba(140,209,31,0.25)]" />
-              {h.pill}
-            </span>
-            <h1 className="mt-5 font-display text-[2.6rem] leading-[1.1] font-extrabold sm:text-6xl sm:leading-[1.04] lg:text-[4rem]">
+            <h1 className="font-display text-[2.6rem] leading-[1.1] font-extrabold sm:text-6xl sm:leading-[1.04] lg:text-[4rem]">
               {h.titleA}
               <span className="relative whitespace-nowrap text-brand-lime">
                 {h.titleHighlight}
@@ -315,10 +311,10 @@ function MiniJob({ job, t, className }: { job: Job; t: Dict; className: string }
   return (
     <div className={`absolute w-[330px] rounded-2xl bg-white p-4.5 text-ink shadow-[0_24px_50px_-18px_rgba(0,0,0,0.45)] ${className}`}>
       <div className="flex items-center gap-3">
-        <CompanyMark name={job.company} />
+        <JobMark />
         <div className="min-w-0">
           <p className="truncate font-display text-lg leading-tight">{job.title}</p>
-          <p className="truncate text-[13px] text-ink-mute">{[job.company, job.location].filter(Boolean).join(" · ")}</p>
+          <p className="truncate text-[13px] text-ink-mute">{job.location ?? t.common.locationHidden}</p>
         </div>
       </div>
       <div className="mt-3 flex gap-1.5">
